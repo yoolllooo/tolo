@@ -1,82 +1,38 @@
-# LightGCL
-This is the PyTorch implementation for LightGCL proposed in the paper [**LightGCL: Simple Yet Effective Graph Contrastive Learning for Recommendation**](https://openreview.net/forum?id=FKXVK9dyMM), *International Conference on Learning Representation*, 2023.
+# Path Planning and Control Simulation
 
-<br>
-<p align='center'>
-<img src="https://user-images.githubusercontent.com/60952950/219573564-64d5e9cc-6dbc-4cc9-b115-95fb6d46f1a7.png"  width="600" height="300"><br>
-<i> Fig: Model Structure of LightGCL </i>
-</p>
+## 项目概述
+本项目实现了基于A*和RRT算法的路径规划，以及Pure Pursuit和Stanley方法的路径跟踪控制仿真。项目使用Python编写，结合了numpy和matplotlib进行数据处理和可视化。
 
+## 功能特性
+- **A*路径规划**：使用A*算法从起点到终点生成最优路径。
+- **RRT路径规划**：使用RRT算法从起点到终点生成随机树路径。
+- **Pure Pursuit控制**：基于Pure Pursuit算法进行路径跟踪控制。
+- **Stanley控制**：基于Stanley算法进行路径跟踪控制。
+- **路径仿真**：使用matplotlib进行路径和车辆位置的动态可视化。
 
-### 1. Note on datasets and directories
-Due to the large size of datasets *ML-10M*, *Amazon* and *Tmall*, we have compressed them into zip files. Please unzip them before running the model on these datasets. For *Yelp* and *Gowalla*, keeping the current directory structure is fine.
+## 文件结构
+- `main.py`：主程序文件，包含所有路径规划和控制算法的实现以及仿真展示。
+- `README.md`：项目说明文档。
 
-Before running the codes, please ensure that two directories `log/` and `saved_model/` are created under the root directory. They are used to store the training results and the saved model and optimizer states.
+## 安装和运行
+### 前置条件
+- Python 3.x
+- numpy
+- matplotlib
 
-### 2. Running environment
+### 安装步骤
+1. 克隆或下载本仓库：
+    ```bash
+    git clone https://github.com/yourusername/path-planning-control.git
+    cd path-planning-control
+    ```
 
-We develope our codes in the following environment:
+2. 安装依赖：
+    ```bash
+    pip install numpy matplotlib
+    ```
 
-```
-Python version 3.9.12
-torch==1.12.0+cu113
-numpy==1.21.5
-tqdm==4.64.0
-```
-
-### 3. How to run the codes
-
-* Yelp
-```
-python main.py --data yelp
-```
-
-* Gowalla
-
-```
-python main.py --data gowalla --lambda2 0
-```
-
-* ML-10M
-```
-python main.py --data ml10m --temp 0.5
-```
-
-* Tmall
-
-```
-python main.py --data tmall --gnn_layer 1
-```
-
-* Amazon
-
-```
-python main.py --data amazon --gnn_layer 1 --lambda2 0 --temp 0.1
-```
-
-### 4. Some configurable arguments
-
-* `--cuda` specifies which GPU to run on if there are more than one.
-* `--data` selects the dataset to use.
-* `--lambda1` specifies $\lambda_1$, the regularization weight for CL loss.
-* `--lambda2` is $\lambda_2$, the L2 regularization weight.
-* `--temp` specifies $\tau$, the temperature in CL loss.
-* `--dropout` is the edge dropout rate.
-* `--q` decides the rank q for SVD.
-
-### 5. On the complexity of LightGCL
-
-We notice that many readers are confused about the complexity of performing graph convolution on the SVD-reconstructed view, arguing that the complexity should be O(2IJLd) since the SVD-reconstructed view is fully-connected. In fact, this issue has been clearly explained in the **Appendix D.3** in our paper. We also answered a Github issue about it (<a href='https://github.com/HKUDS/LightGCL/issues/3'>issue #3</a>). We hereby clarify again:
-
-It is correct that the reconstructed graph is fully connected. However, please note that the reconstructed graph is actually the **product of three low dimension matrices U,S,V'**, whose dimensions are I×q, q×q, q×J, respectively (where q is as small as 5). So we don't really need to compute the reconstructed graph, but just store the three low-dimension matrices. And by doing the matrix multiplication in the following order: US [pre-calculated, complexity not counted into training], V'E [complexity is O(qJd)], and then (US)(V'E) [complexity is O(qId)], we never need to construct that large matrix, and the complexity is proportional to **(I+J)** instead of **(IJ)**.
-
-### 6. Citing our paper
-Please kindly cite our paper if you find this paper and the codes helpful.
-```
-@inproceedings{caisimple,
-  title={LightGCL: Simple Yet Effective Graph Contrastive Learning for Recommendation},
-  author={Cai, Xuheng and Huang, Chao and Xia, Lianghao and Ren, Xubin},
-  booktitle={The Eleventh International Conference on Learning Representations},
-  year={2023}
-}
-```
+### 运行程序
+在命令行中运行以下命令启动程序：
+```bash
+python main.py
