@@ -11,28 +11,20 @@
 - **路径仿真**：使用matplotlib进行路径和车辆位置的动态可视化。
 
 ## 文件结构
-- `main.py`：主程序文件，包含所有路径规划和控制算法的实现以及仿真展示。
+- `hw.py`：主程序文件，包含所有路径规划和控制算法的实现。
+- `main.py`：代码运行会显示所有探索点。
 - `README.md`：项目说明文档。
 
 ## 安装和运行
 ### 前置条件
-- Python 3.x
+- Python 3.10
 - numpy
 - matplotlib
 
-### 安装步骤
-1. 克隆或下载本仓库：
+### 运行步骤
+1. 在命令行中运行以下命令启动程序：
     ```bash
-    git clone https://github.com/yourusername/path-planning-control.git
-    cd path-planning-control
+    python hw.py
     ```
 
-2. 安装依赖：
-    ```bash
-    pip install numpy matplotlib
-    ```
-
-### 运行程序
-在命令行中运行以下命令启动程序：
-```bash
-python main.py
+2. 得到结果：hw.py文件运行后会得到四个图，分别是两种路径规划算法下的两种控制算法的路径。main.py文件运行后可见两种路径规划算法的具体探索点。
